@@ -8,20 +8,21 @@ const router = Router()
 
 router.post('/register', async (req, res) => {
     const {uname, pword } = req.body
-    if (!username || !password) {
+    if (!uname || !pword) {
         return res.status(400).json({ error: 'Bad request'})
     }
-    if (User.exists({ username })) { 
+    if (await User.exists({ uname })) {
         return res.status(409).json({ error: 'Conflicting username'})
     }
-    const newUser = User.create({ uname: uname, pword: bcrypt.hash(pword, 10)})
+    const newUser = await User.create({ uname: uname, pword: await bcrypt.hash(pword, 10)})
     req.session.userID = newUser.id;
-})  
+    res.status(201).json({id: newUser.id, uname: newUser.uname})
+})
 
 router.post('/login', async (req, res) => {
     const {uname, pword } = req.body
     const user = await User.findOne({uname})
-    if (!user || !(await bcrypt.compare(password ?? '', user.passwordHash))) {
+    if (!user || !(await bcrypt.compare(pword ?? '', user.pword))) {
         return res.status(401).json({ error: 'Bad user or password'})
     }
     req.session.userID = user.id;

@@ -5,12 +5,16 @@ import MongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
 import authRouter from './routes/auth.js'
 
+await mongoose.connect(process.env.MONGODB_URI)
+
 const app = express()
 const PORT = process.env.PORT ?? 3000
 
 app.use(express.json())
 app.use(session({
   secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
   store: MongoStore.create({ client: mongoose.connection.getClient() }),
   cookie: {}
 }))
