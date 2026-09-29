@@ -32,4 +32,13 @@ router.post('/logout', (req, res) => {
   req.session.destroy(() => res.sendStatus(204))
 })
 
+// So we can check who is logged in
+router.get('/me', async (req, res) => {
+    const user = req.session.userID && await User.findById(req.session.userID)
+    if (!user) {
+        return res.sendStatus(401)
+    }
+    res.json({id: user.id, uname: user.uname})
+})
+
 export default router
