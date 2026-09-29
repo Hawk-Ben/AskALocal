@@ -21,8 +21,14 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const {uname, pword } = req.body
-    const user = await User.findOne({uname})
-    if (!user || !(await bcrypt.compare(pword ?? '', user.pword))) {
+    if (!uname || !pword) {
+        return res.status(400).json({ error: 'Bad request'})
+    }
+    let user = await User.findOne({uname})
+    // No account with this name yet, so make one
+    if (!user) {
+        user = await User.create({ uname: uname, pword: await bcrypt.hash(pword, 10)})
+    } else if (!(await bcrypt.compare(pword, user.pword))) {
         return res.status(401).json({ error: 'Bad user or password'})
     }
     req.session.userID = user.id;
