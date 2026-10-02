@@ -2,11 +2,11 @@ import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 
 export const Route = createRootRoute({
 
-    component: () => (
+    component: () => ( // We can put the header here eventually or a footer but right now it just looks bad.
         <>
-            <nav>
+            {/* <nav>
                 <Link to="/">/</Link>
-            </nav>
+            </nav> */}
             <Outlet/>
         </>
     ),
