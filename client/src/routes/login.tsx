@@ -28,7 +28,7 @@ function LoginPage() {
     }
 
     return (
-        <main>``
+        <main>
             <h2>Sign in</h2>
             <form onSubmit={handleSubmit} className="form">
                 <label className="field">
