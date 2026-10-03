@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import MapView from "../../components/MapView";
 
 export const Route = createFileRoute('/_auth/')({
-    component: () => (<><h1>Something</h1></>),
+    component: () => (<MapView/>),
 })
