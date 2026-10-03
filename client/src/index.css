@@ -143,3 +143,64 @@ code {
 .error {
   color: #dc2626;
 }
+
+/* Map */
+.map {
+  flex: 1;
+  height: calc(100svh - 40px);
+}
+
+.map-page {
+  display: flex;
+}
+
+/* side box with all the events */
+.side-panel {
+  width: 250px;
+  padding: 10px;
+  border-right: 1px solid var(--border);
+  text-align: left;
+  overflow-y: auto;
+  height: calc(100svh - 40px);
+  box-sizing: border-box;
+}
+
+.side-panel h3 {
+  margin: 0 0 8px;
+}
+
+.event-item {
+  border-bottom: 1px solid var(--border);
+  padding: 6px 0;
+}
+
+.event-title {
+  cursor: pointer;
+  color: var(--text-h);
+}
+
+.event-more {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.event-more button {
+  margin-top: 6px;
+}
+
+.maplibregl-popup-content {
+  color: black;
+  text-align: left;
+}
+
+.create-event {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.create-event label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
