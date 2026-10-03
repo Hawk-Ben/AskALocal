@@ -1,0 +1,25 @@
+.auth {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.card {
+  width: 100%;
+  max-width: 40rem;
+  padding: 40px 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--fg-light);
+  box-shadow: var(--shadow);
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.cardTitle {
+  font-size: 32px;
+  letter-spacing: -0.64px;
+  margin: 0 0 28px;
+}
