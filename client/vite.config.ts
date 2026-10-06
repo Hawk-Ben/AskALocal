@@ -16,6 +16,10 @@ export default defineConfig({
       '/api': 'http://localhost:3000',
     },
   },
+  // maplibre's worker file breaks if vite pre-bundles it
+  optimizeDeps: {
+    exclude: ['maplibre-gl'],
+  },
   test: {
     environment: 'node',
   },
