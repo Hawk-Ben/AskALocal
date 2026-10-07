@@ -48,4 +48,58 @@ router.get('/me', async (req, res) => {
     res.json({id: user.id, uname: user.uname})
 })
 
+router.get('/editUser', async (req, res) => {
+    const user = req.session.userID && await User.findById(req.session.userID)
+    if (!user) {
+        return res.sendStatus(401)
+    }
+
+    res.json({
+        uname: user.uname,
+        bio: user.bio,
+        birthday: user.birthday,
+        homeLocation: user.homeLocation,
+    })
+})
+
+router.post('/editUser', async (req, res) => {
+    const user = req.session.userID && await User.findById(req.session.userID)
+    if (!user) {
+        return res.sendStatus(401)
+    }
+
+    const { uname, bio, birthday, homeLocation } = req.body
+    if (
+        typeof uname !== 'string' || !uname.trim() ||
+        typeof bio !== 'string' ||
+        typeof homeLocation !== 'string' ||
+        (birthday !== '' && birthday !== null && typeof birthday !== 'string')
+    ) {
+        return res.status(400).json({ error: 'Invalid profile information' })
+    }
+
+    const updatedUsername = uname.trim()
+    const conflictingUser = await User.findOne({ uname: updatedUsername, _id: { $ne: user._id } })
+    if (conflictingUser) {
+        return res.status(409).json({ error: 'Conflicting username' })
+    }
+
+    const updatedBirthday = birthday ? new Date(birthday) : null
+    if (updatedBirthday && Number.isNaN(updatedBirthday.getTime())) {
+        return res.status(400).json({ error: 'Invalid birthday' })
+    }
+
+    user.uname = updatedUsername
+    user.bio = bio
+    user.homeLocation = homeLocation
+    user.birthday = updatedBirthday
+    await user.save()
+
+    res.json({
+        uname: user.uname,
+        bio: user.bio,
+        birthday: user.birthday,
+        homeLocation: user.homeLocation,
+    })
+})
 export default router

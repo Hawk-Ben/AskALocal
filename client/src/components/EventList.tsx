@@ -5,13 +5,15 @@ type Props = {
     selected: typeof fakeEvents[0] | null
     onPick: (event: typeof fakeEvents[0]) => void
     onCreateClick: () => void
+    onProfileClick: () => void
 }
 
-function EventList({ events, selected, onPick, onCreateClick }: Props) {
+function EventList({ events, selected, onPick, onCreateClick, onProfileClick }: Props) {
     return (
         <div>
             <h3>Events</h3>
             <button onClick={onCreateClick}>+ Create Event</button>
+            <p className="profile-link"><button type="button" onClick={onProfileClick}>View Profile</button></p>
             {events.map((event) => (
                 <div key={event._id} className="event-item">
                     <div className="event-title" onClick={() => onPick(event)}>

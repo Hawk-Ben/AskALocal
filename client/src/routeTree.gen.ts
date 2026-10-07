@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
+import { Route as AuthUserpageRouteImport } from './routes/_auth/userpage'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -27,27 +28,35 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthUserpageRoute = AuthUserpageRouteImport.update({
+  id: '/userpage',
+  path: '/userpage',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthIndexRoute
   '/login': typeof LoginRoute
+  '/userpage': typeof AuthUserpageRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/userpage': typeof AuthUserpageRoute
   '/': typeof AuthIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
+  '/_auth/userpage': typeof AuthUserpageRoute
   '/_auth/': typeof AuthIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths: '/' | '/login' | '/userpage'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
-  id: '__root__' | '/_auth' | '/login' | '/_auth/'
+  to: '/login' | '/userpage' | '/'
+  id: '__root__' | '/_auth' | '/login' | '/_auth/userpage' | '/_auth/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,14 +87,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/userpage': {
+      id: '/_auth/userpage'
+      path: '/userpage'
+      fullPath: '/userpage'
+      preLoaderRoute: typeof AuthUserpageRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
 interface AuthRouteChildren {
+  AuthUserpageRoute: typeof AuthUserpageRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthUserpageRoute: AuthUserpageRoute,
   AuthIndexRoute: AuthIndexRoute,
 }
 

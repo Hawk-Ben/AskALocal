@@ -4,6 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import fakeEvents from '../fakeEvents'
 import EventList from './EventList'
 import CreateEvent from './CreateEvent'
+import ProfileView from './ProfileView'
 
 // WPI, used until we know where the user is
 const startCenter: [number, number] = [-71.8063, 42.2746]
@@ -15,6 +16,7 @@ function MapView() {
     const [events, setEvents] = useState(fakeEvents)
     const [selected, setSelected] = useState<typeof fakeEvents[0] | null>(null)
     const [creating, setCreating] = useState(false)
+    const [showProfile, setShowProfile] = useState(false)
 
     useEffect(() => {
         const map = new maplibregl.Map({
@@ -90,9 +92,17 @@ function MapView() {
     return (
         <div className="map-page">
             <div className="side-panel">
-                {creating
+                {showProfile
+                    ? <ProfileView onBack={() => setShowProfile(false)} />
+                    : creating
                     ? <CreateEvent onCreate={addEvent} onCancel={() => setCreating(false)} />
-                    : <EventList events={events} selected={selected} onPick={pickEvent} onCreateClick={() => setCreating(true)} />}
+                    : <EventList
+                        events={events}
+                        selected={selected}
+                        onPick={pickEvent}
+                        onCreateClick={() => setCreating(true)}
+                        onProfileClick={() => setShowProfile(true)}
+                    />}
             </div>
             <div ref={mapDiv} className="map"></div>
         </div>
