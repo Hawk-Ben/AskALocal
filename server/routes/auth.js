@@ -48,12 +48,14 @@ router.get('/me', async (req, res) => {
     res.json({id: user.id, uname: user.uname})
 })
 
+//pulls user info for profile display
 router.get('/editUser', async (req, res) => {
     const user = req.session.userID && await User.findById(req.session.userID)
     if (!user) {
         return res.sendStatus(401)
     }
 
+    //Load events into user profile for display
     await user.populate([
         { path: 'eventsHosting', select: 'title host' },
         { path: 'eventsAttending', select: 'title attendees' },
@@ -68,12 +70,14 @@ router.get('/editUser', async (req, res) => {
     })
 })
 
+//Edit user profile information
 router.post('/editUser', async (req, res) => {
     const user = req.session.userID && await User.findById(req.session.userID)
     if (!user) {
         return res.sendStatus(401)
     }
 
+    //Checks for valid input types and non-empty username
     const { uname, bio, birthday, homeLocation } = req.body
     if (
         typeof uname !== 'string' || !uname.trim() ||
@@ -84,17 +88,20 @@ router.post('/editUser', async (req, res) => {
         return res.status(400).json({ error: 'Invalid profile information' })
     }
 
+    //Ensure no conflicting usernames
     const updatedUsername = uname.trim()
     const conflictingUser = await User.findOne({ uname: updatedUsername, _id: { $ne: user._id } })
     if (conflictingUser) {
         return res.status(409).json({ error: 'Conflicting username' })
     }
 
+    //Checks if birthday is a valid date
     const updatedBirthday = birthday ? new Date(birthday) : null
     if (updatedBirthday && Number.isNaN(updatedBirthday.getTime())) {
         return res.status(400).json({ error: 'Invalid birthday' })
     }
 
+    //The editting!!!
     user.uname = updatedUsername
     user.bio = bio
     user.homeLocation = homeLocation
