@@ -13,6 +13,7 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as AuthUserpageRouteImport } from './routes/_auth/userpage'
+import { Route as AuthEventsEventIdRouteImport } from './routes/_auth/events/$eventId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -33,16 +34,23 @@ const AuthUserpageRoute = AuthUserpageRouteImport.update({
   path: '/userpage',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthEventsEventIdRoute = AuthEventsEventIdRouteImport.update({
+  id: '/events/$eventId',
+  path: '/events/$eventId',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthIndexRoute
   '/login': typeof LoginRoute
   '/userpage': typeof AuthUserpageRoute
+  '/events/$eventId': typeof AuthEventsEventIdRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/userpage': typeof AuthUserpageRoute
   '/': typeof AuthIndexRoute
+  '/events/$eventId': typeof AuthEventsEventIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -50,13 +58,20 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_auth/userpage': typeof AuthUserpageRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_auth/events/$eventId': typeof AuthEventsEventIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/userpage'
+  fullPaths: '/' | '/login' | '/userpage' | '/events/$eventId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/userpage' | '/'
-  id: '__root__' | '/_auth' | '/login' | '/_auth/userpage' | '/_auth/'
+  to: '/login' | '/userpage' | '/' | '/events/$eventId'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/login'
+    | '/_auth/userpage'
+    | '/_auth/'
+    | '/_auth/events/$eventId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,17 +109,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserpageRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/events/$eventId': {
+      id: '/_auth/events/$eventId'
+      path: '/events/$eventId'
+      fullPath: '/events/$eventId'
+      preLoaderRoute: typeof AuthEventsEventIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
 interface AuthRouteChildren {
   AuthUserpageRoute: typeof AuthUserpageRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthEventsEventIdRoute: typeof AuthEventsEventIdRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthUserpageRoute: AuthUserpageRoute,
   AuthIndexRoute: AuthIndexRoute,
+  AuthEventsEventIdRoute: AuthEventsEventIdRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

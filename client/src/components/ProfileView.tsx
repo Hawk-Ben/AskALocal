@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
+import { Link } from '@tanstack/react-router'
 
 type Profile = {
     uname: string
     bio: string
     birthday: string | null
     homeLocation: string
-    eventsHosting: string[] | null
-    eventsAttending: string[] | null
+    eventsHosting: { _id: string, title: string }[]
+    eventsAttending: { _id: string, title: string }[]
 }
 
 type Props = {
@@ -82,11 +83,19 @@ function ProfileView({ onBack }: Props) {
                         </div>
                         <div>
                             <dt>Events hosting</dt>
-                            <dd>{profile.eventsHosting ? profile.eventsHosting.join(', ') : 'None'}</dd>
+                            <dd>{profile.eventsHosting.length ? <ul className="profile-events">
+                                {profile.eventsHosting.map((event) => <li key={event._id}>
+                                    <Link to="/events/$eventId" params={{ eventId: event._id }}>{event.title}</Link>
+                                </li>)}
+                            </ul> : 'None'}</dd>
                         </div>
                         <div>
                             <dt>Events attending</dt>
-                            <dd>{profile.eventsAttending ? profile.eventsAttending.join(', ') : 'None'}</dd>
+                            <dd>{profile.eventsAttending.length ? <ul className="profile-events">
+                                {profile.eventsAttending.map((event) => <li key={event._id}>
+                                    <Link to="/events/$eventId" params={{ eventId: event._id }}>{event.title}</Link>
+                                </li>)}
+                            </ul> : 'None'}</dd>
                         </div>
                     </dl>
                     <p className="profile-link"><button type="button" onClick={() => window.location.href = '/userpage'}>Edit Profile</button></p>

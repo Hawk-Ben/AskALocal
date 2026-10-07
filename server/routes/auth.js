@@ -54,11 +54,17 @@ router.get('/editUser', async (req, res) => {
         return res.sendStatus(401)
     }
 
+    await user.populate([
+        { path: 'eventsHosting', select: 'title host' },
+        { path: 'eventsAttending', select: 'title attendees' },
+    ])
     res.json({
         uname: user.uname,
         bio: user.bio,
         birthday: user.birthday,
         homeLocation: user.homeLocation,
+        eventsHosting: user.eventsHosting.map((event) => ({ _id: event._id, title: event.title })),
+        eventsAttending: user.eventsAttending.map((event) => ({ _id: event._id, title: event.title })),
     })
 })
 

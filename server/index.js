@@ -4,6 +4,7 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
 import authRouter from './routes/auth.js'
+import eventsRouter from './routes/events.js'
 
 await mongoose.connect(process.env.MONGODB_URI, { dbName: process.env.MONGODB_DB })
 
@@ -20,6 +21,7 @@ app.use(session({
 }))
 
 app.use('/api/auth', authRouter)
+app.use('/api/events', eventsRouter)
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true })
