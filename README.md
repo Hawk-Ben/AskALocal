@@ -47,3 +47,20 @@ Think of 1,3, and 4 in particular in a similar vein to the design / tech achieve
 ## FAQs
 
 - **Can I use XYZ framework?** You can use any web-based frameworks or tools available, but for your server programming you need to use Node.js. Your client-side scripting language should be either JavaScript or TypeScript. While the course staff is happy to help with frameworks used in the class, we can't guarantee we'll be able to assist you with other frameworks / databases; choose carefully!
+------------------------------Delete above before turn in-----------------------------------------------------------------------
+
+Ask a local is a web based service that allows the user to look at a street map centered on themselves and see events happening around them. The user will be able to see various pins on different locations that hold an event that's happening at that location. Each event will have its own page with various information presented, such as the time of the event, who is hosting the event, an event description and any accessibility needs or resources required to attend the event. Each user will also be able to mark an event as attending, sending an alert to the event creator that the user has selected to attend their specific event. Each event creator will also have their own page, listing all events they have created and brief descriptions of those events with times and locations that users can click on.
+Users may also host their own events to put onto Ask a Local. Users can select a location on their map and create a pin with information about when the event is, an event description and any other necessary information that users would need to know if they were to attend the event. Hosts can also see how many people are planning on attending their event, they will be provided with their name and a link to their profile, that if public will allow them to see what other events they're planning on attending. Users may friend other users and gain access to see the events that their friends plan on attending. 
+
+For the specifics we will be using Node.js for the runtime and npm as the package manager. For the backend framework we will use Express, with MongoDB for persistence (we can use geospatial indexes from Mongo to query location events). Authentication will be handled with express session and bcrypt. For the bundler we will use Vite. For the frontend framework we will use React with TypeScript. For routing we will use TanStack Router. We will be using Tailwind for our CSS framework. For testing we will use Vitest. For the street map we will be using MapLibre GL with MapTiler for the tiles.
+
+During the development of AskALocal one challenged we faced was rendering the street map of the local area. Instead of attempting to load the entire surronding street map we loaded in the map by tiles individually so tiles not seen by the user don't need to be rendered until the user zooms in or out. Another challenge we faced was editing the user information, at first we created a new user with the given information but learned that created a whole new user ID which broke the hosting and editing systems for events because it didn't reconize the new user, so we changed each field of the user individually instead.
+
+Contributions to the project
+Lex: Developed the log in page and the base of the website we all built out of
+Mohammed: Created the street map interface and event pins
+Caleb: Developed the event creation backend as well as the event edit page
+Griffin: Created the event sidebar and connected the users to events to see users hosting or attending events
+Ben: Developed the user display and editting page as well as the user backend to store in the server
+
+Video link: https://youtu.be/CJs5FMG2GuM
