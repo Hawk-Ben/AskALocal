@@ -194,8 +194,9 @@ code {
 
 /* side box with all the events */
 .side-panel {
-  width: 250px;
-  padding: 10px;
+  width: 320px;
+  flex-shrink: 0;
+  padding: 16px;
   border-right: 1px solid var(--border);
   text-align: left;
   overflow-y: auto;
@@ -209,12 +210,28 @@ code {
 
 .event-item {
   border-bottom: 1px solid var(--border);
-  padding: 6px 0;
+  padding: 12px 0;
 }
 
 .event-title {
+  border: none;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  font-weight: 600;
   cursor: pointer;
   color: var(--text-h);
+  overflow-wrap: anywhere;
+}
+
+.event-title:hover {
+  color: var(--accent);
+}
+
+.event-title:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .event-more {
@@ -251,6 +268,7 @@ code {
   border: 1px solid var(--border);
   border-radius: 4px;
   color: var(--text-h);
+  background: var(--bg);
   font: inherit;
 }
 
@@ -305,4 +323,137 @@ code {
 .profile-details dd {
   margin: 4px 0 0;
   overflow-wrap: anywhere;
+}
+
+.button-secondary {
+  background: var(--accent-bg);
+  color: var(--text-h);
+  border: 1px solid var(--accent-border);
+}
+
+.event-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.event-back,
+.profile-events a {
+  color: var(--accent);
+}
+
+.event-page {
+  width: min(100% - 32px, 42rem);
+  margin: 2rem auto;
+  text-align: left;
+}
+
+.event-back {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.event-card,
+.event-page > .create-event {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.event-page-header {
+  margin-bottom: 24px;
+}
+
+.event-page h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin: 8px 0 16px;
+  overflow-wrap: anywhere;
+}
+
+.event-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.event-coordinates {
+  display: flex;
+  gap: 12px;
+}
+
+.event-coordinates .field {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.event-section {
+  margin-top: 24px;
+}
+
+.event-description {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.event-more .event-description {
+  margin-top: 8px;
+}
+
+.event-hint {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.event-empty {
+  margin-top: 20px;
+}
+
+.attendee-list,
+.profile-events {
+  padding-left: 20px;
+  overflow-wrap: anywhere;
+}
+
+.event-notice {
+  padding: 12px;
+  margin-top: 16px;
+  background: var(--accent-bg);
+  border-radius: 8px;
+  color: var(--text-h);
+}
+
+@media (max-width: 600px) {
+  .map-page {
+    flex-direction: column-reverse;
+  }
+
+  .map {
+    flex: none;
+    height: 40svh;
+    width: 100%;
+  }
+
+  .side-panel {
+    width: 100%;
+    height: auto;
+    border-right: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .event-card,
+  .event-page > .create-event {
+    padding: 16px;
+  }
 }
