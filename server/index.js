@@ -3,6 +3,8 @@ import express from 'express'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import authRouter from './routes/auth.js'
 import eventsRouter from './routes/events.js'
 
@@ -25,6 +27,12 @@ app.use('/api/events', eventsRouter)
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true })
+})
+
+const clientDist = path.join(path.dirname(fileURLToPath(import.meta.url)), '../client/dist')
+app.use(express.static(clientDist))
+app.get('/{*splat}', (req, res) => {
+  res.sendFile(path.join(clientDist, 'index.html'))
 })
 
 app.listen(PORT, () => {
